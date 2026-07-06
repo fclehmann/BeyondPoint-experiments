@@ -1,0 +1,74 @@
+ARG CUDA_VERSION=11.8.0
+ARG UBUNTU_VERSION=20.04
+ARG PYTHON_VERSION=3.9.5
+ARG POETRY_VERSION=1.6.0
+ARG POETRY_HOME="/opt/poetry"
+ARG USE_CASE
+
+FROM nvidia/cuda:$CUDA_VERSION-runtime-ubuntu$UBUNTU_VERSION AS base-cuda-python-poetry
+
+ARG DEBIAN_FRONTEND=noninteractive
+ARG PYTHON_VERSION
+ARG POETRY_VERSION
+ARG POETRY_HOME
+ARG WITH_VSCODE=false
+
+# Install git (for spock), python and poetry
+RUN apt-get update -y && \
+    apt-get install -y git curl build-essential checkinstall liblzma-dev  libreadline-gplv2-dev  libncursesw5-dev  libssl-dev  libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev && \
+    cd /usr/src && \
+    curl https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tgz --output Python-$PYTHON_VERSION.tgz --silent && \
+    tar xzf Python-$PYTHON_VERSION.tgz && \
+    cd Python-$PYTHON_VERSION && \
+    ./configure --enable-optimizations --prefix=/usr && \
+    make && \
+    make install && \
+    rm -rf /var/lib/apt/lists/* && \
+    curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 - --version $POETRY_VERSION
+
+# Add poetry to PATH
+ENV PATH="$POETRY_HOME/bin:${PATH}"
+
+FROM base-cuda-python-poetry
+
+ARG USE_CASE
+
+ENV POETRY_VIRTUALENVS_CREATE=true \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_NO_INTERACTION=1 \
+    POETRY_HOME="/opt/poetry"
+
+WORKDIR /app
+
+COPY --chmod=755 ./lib ./lib
+COPY --chmod=755 ./use_cases/$USE_CASE/src ./use_cases/$USE_CASE/src
+COPY --chmod=755 ./use_cases/$USE_CASE/config[s] ./use_cases/$USE_CASE/configs
+COPY --chmod=755 ./use_cases/$USE_CASE/pyproject.toml ./use_cases/$USE_CASE/poetry.lock ./use_cases/$USE_CASE/README.md ./use_cases/$USE_CASE/
+
+WORKDIR use_cases/$USE_CASE
+
+# Install dependencies
+RUN --mount=type=cache,target="/root/.cache/pypoetry" \
+    --mount=type=secret,id=gitlab,target=/root/.config/pypoetry/auth.toml \
+    poetry install
+
+# Make venv default python
+ENV PATH="/app/use_cases/$USE_CASE/.venv/bin:$PATH"
+
+# https://stackoverflow.com/questions/49133234/docker-entrypoint-with-env-variable-and-optional-arguments
+RUN echo "python -m $USE_CASE \"\$@\"" > /run_use_case.sh
+
+# Install VScode CLI
+RUN mkdir /opt/vscode
+WORKDIR /opt/vscode
+RUN if [ $WITH_VSCODE = "true" ] ; then curl -Lk 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' --output vscode_cli.tar.gz ; fi
+RUN if [ $WITH_VSCODE = "true" ] ; then tar -xf vscode_cli.tar.gz ; fi
+
+WORKDIR /app/use_cases/$USE_CASE
+
+ENTRYPOINT ["/bin/bash", "/run_use_case.sh"]
+
+CMD ["--help"]
+
+
+

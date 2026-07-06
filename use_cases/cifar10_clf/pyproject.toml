@@ -1,0 +1,39 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry]
+name = "cifar10_clf"
+version = "0.0.0"
+description = ""
+readme = "README.md"
+authors = ["Yahor Paromau"]
+packages = [{ include = "cifar10_clf", from = "./src" }]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+torch = {url="https://download.pytorch.org/whl/cu118/torch-2.1.2%2Bcu118-cp39-cp39-linux_x86_64.whl"}
+torchvision = {url="https://download.pytorch.org/whl/cu118/torchvision-0.16.2%2Bcu118-cp39-cp39-linux_x86_64.whl"}
+mlflow = "^2.10.2"
+scikit-learn = "~1.1.0"
+numpy = "~1.23.0"
+pandas = "~1.4.0"
+spock-config = "~2.5.0"
+isml_train = { path = "../../lib/isml_train", develop = true }
+torchmetrics = "^1.4.0.post0"
+torchinfo = "^1.8.0"
+tqdm = "~4.64.0"
+psutil = "^6.0.0"
+pynvml = "^11.5.0"
+lightning = "^2.4.0"
+
+[tool.poetry.group.interactive]
+optional = true
+
+[tool.poetry.group.interactive.dependencies]
+ipykernel = "~6.16.0"
+seaborn = "^0.12.2"
+matplotlib = "^3.7.1"
+plotly = "^5.14.1"
+papermill = "^2.4.0"

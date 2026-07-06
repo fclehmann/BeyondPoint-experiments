@@ -1,0 +1,25 @@
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry_dynamic_versioning.backend"
+
+[tool.poetry]
+name = "ec-formatter"
+version = "0.0.0"
+description = ""
+readme = "README.md"
+authors = ["Yahor Paromau"]
+packages = [{ include = "ec_formatter" }]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+typer = { version="~0.6.1", extras=["all"] }
+tomlkit = { version="~0.11.6"}
+
+[tool.poetry.scripts]
+ec-formatter = "ec_formatter.cli:app"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+metadata = true
+dirty = true

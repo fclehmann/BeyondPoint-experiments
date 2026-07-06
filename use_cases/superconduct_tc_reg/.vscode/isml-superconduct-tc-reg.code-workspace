@@ -1,0 +1,40 @@
+{
+	"folders": [
+		{
+			"name": "superconduct_tc_reg",
+			"path": "..",
+		},
+		{
+			"path": "../../../lib/isml_train"
+		},
+		{
+			"name": "tmp",
+			"path": "../../../../tmp",
+		},
+		{
+			"path": "../../../tools/experiment_runner",
+		},
+		{
+			"name": "superconduct_tc_reg-data",
+			"path": "../../../../../superconduct_tc_reg"
+		}
+	],
+	"settings": {
+		"superconduct_tc_reg-data": {
+			"files.watcherExclude": {
+				"**/*": true
+			},
+			"python.analysis.exclude": [
+				"*/**"
+			]
+		},
+		"tmp": {
+			"files.watcherExclude": {
+				"**/*": true
+			},
+			"python.analysis.exclude": [
+				"*/**"
+			]
+		},
+	}
+}

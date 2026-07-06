@@ -1,0 +1,33 @@
+training_data_root: "/beegfs/ws/0/clehm-inferential_statistics_ml/simpsons/data/raw/dataset"
+out_path: "/beegfs/ws/0/clehm-inferential_statistics_ml/.dev/.yahor/tmp/results"
+model: vgg16
+save_results: True
+batch_size: 8
+train_test_split_algorithm: "split"
+n_folds: 5
+test_size: 0.2
+num_epochs: 5
+show_step: 1
+# Opt
+optimizer: "AdamW"
+lr: 0.0016021039222144
+weight_decay: 0.0006116504753987
+eps: 0.0000000001
+betas: [ 0.9, 0.99 ]
+# -
+lr_decay: 0.0
+momentum: 0.9
+nesterov: True
+initial_accumulator_value: 0.0
+etas: [ 0.9, 0.99 ]
+step_sizes: [ 0.9, 0.99 ]
+max_iter: 1000
+max_eval: 1000
+tolerance_grad: 0.1
+tolerance_change: 0.1
+history_size: 1
+alpha: 0.1
+lambd: 0.1
+rho: 0.1
+t0: 0.1
+dampening: 0.0

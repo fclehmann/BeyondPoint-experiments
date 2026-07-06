@@ -1,0 +1,32 @@
+FROM ubuntu:20.04
+
+ARG SLURM_GID=350
+ARG SLURM_UID=350
+
+ARG MUNGE_UID=351
+ARG MUNGE_GID=351
+
+RUN groupadd -g $SLURM_GID slurm && \
+    useradd  -m -c "Slurm workload manager" -d /var/lib/slurm -u $SLURM_UID -g slurm  -s /bin/bash slurm && \
+    groupadd -g $MUNGE_GID munge && \
+    useradd  -m -c "MUNGE Uid 'N' Gid Emporium" -d /var/lib/munge -u $MUNGE_UID -g munge  -s /sbin/nologin munge
+
+ARG SLURM_VERSION=20.11.9
+
+RUN apt-get update -y && \
+    apt-get install -y libibverbs-dev ibverbs-utils gcc g++ make wget python3 munge munge-devel psmisc http-parser-devel json-c-devel && \
+    apt-get autoremove -y && \
+    apt-get clean
+
+RUN wget -q https://download.schedmd.com/slurm/slurm-${SLURM_VERSION}.tar.bz2 && \
+    tar -xf slurm-${SLURM_VERSION}.tar.bz2 && \
+    cd slurm-${SLURM_VERSION} && \
+    ./configure --prefix=/usr/ --sysconfdir=/etc/slurm --localstatedir=/var --disable-debug && \
+    make install && \
+    cd .. && \
+    rm -rf slurm-*
+
+
+
+
+

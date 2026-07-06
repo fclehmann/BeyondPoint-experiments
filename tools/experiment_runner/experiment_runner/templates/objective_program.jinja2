@@ -1,0 +1,19 @@
+#!/bin/bash
+
+module load modenv/hiera GCCcore/10.3.0 Python/3.9.5 GCC/10.3.0  CUDA/11.3.1  OpenMPI/4.1.1 PyTorch/1.10.0
+source {{ venv_path }}/bin/activate
+
+{{ command.name }}
+{%- for option in command.options -%}
+    {% filter indent(width=1, first=True) -%}
+        {%- if option.value == "True" and not explicit_boolean_options -%}
+        --{{ option.name }}
+        {%- elif option.value == "False" and not explicit_boolean_options -%}
+        {%- else -%}
+        --{{ option.name }}="{{ option.value }}"
+        {%- endif -%}
+    {%- endfilter %}
+{%- endfor -%}
+{%- filter indent(width=1, first=True) -%}
+"${@}"
+{%- endfilter -%}

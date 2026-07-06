@@ -1,0 +1,3 @@
+_target_: isml_train.tracking.LightningFileSystemLogger
+out_path: ${out_path}
+run_uid: ${run_uid}

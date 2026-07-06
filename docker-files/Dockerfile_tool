@@ -1,0 +1,33 @@
+FROM python:3.9
+
+ARG POETRY_VERSION=1.3.0
+ARG TOOL
+
+ENV POETRY_VIRTUALENVS_CREATE=true \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_NO_INTERACTION=1 \
+    POETRY_HOME="/opt/poetry"
+
+RUN apt-get update -y &&  \
+    apt-get install -y git ssh curl wget &&  \
+    apt-get autoremove -y && \
+    apt-get clean
+
+RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python - --version $POETRY_VERSION
+ENV PATH="$POETRY_HOME/bin:${PATH}"
+
+COPY ./tools /tools
+
+WORKDIR /tools/$TOOL
+
+RUN --mount=type=cache,target="/root/.cache/pypoetry" poetry install
+
+ENV PATH="/tools/$TOOL/.venv/bin:$PATH"
+
+# https://stackoverflow.com/questions/49133234/docker-entrypoint-with-env-variable-and-optional-arguments
+RUN echo "python -m $TOOL \"\$@\"" > /run_tool.sh
+
+ENTRYPOINT ["/bin/bash", "/run_tool.sh"]
+CMD ["--help"]
+
+

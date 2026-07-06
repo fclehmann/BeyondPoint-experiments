@@ -1,0 +1,7 @@
+_target_: lightning.pytorch.loggers.MLFlowLogger
+_partial_: True
+experiment_name: "isml/superconduct-tc-reg/debug"
+tracking_uri: "http://172.26.52.49"
+artifact_location: null
+synchronous: True
+log_model: False

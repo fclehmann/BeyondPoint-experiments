@@ -1,0 +1,97 @@
+[ENV_PARAMS]
+env_type = "singularity"
+singularity_image_file = "/data/horse/ws/s4610340-isml/sifs/cifar10_clf_1c28060.sif"
+[ENV_PARAMS.base_params]
+experiments_path = "/data/horse/ws/s4610340-isml/cifar10_clf/experiments"
+objective_program_name = "run_experiment.sh"
+command_name = ""
+
+[FIXED_EXPERIMENT_PARAMS]
+# Split
+"ExperimentConfig.train_val_split_algorithm" = "bootstrap"
+"ExperimentConfig.val_sample_size" = 10_000
+"ExperimentConfig.test_sample_size" = 10_000
+"ExperimentConfig.train_sample_size" = 40_000
+# Seeds
+"ExperimentConfig.seed" = 125
+# Trainer
+"ExperimentConfig.save_model" = "False"
+"ExperimentConfig.show_step" = 1
+"ExperimentConfig.batch_size" = 5_000
+"ExperimentConfig.loader_num_workers" = 6
+"ExperimentConfig.num_epochs" = 200
+"ExperimentConfig.tf32" = "True"
+# Model
+"ExperimentConfig.dropout_p" = 0.0
+# Data
+"ExperimentConfig.training_data_root" = "/data/horse/ws/s4610340-isml/cifar10_clf/data/processed"
+# Results
+"ExperimentConfig.save_results" = "False"
+"ExperimentConfig.mlflow_experiment" = "isml/cifar10_clf/001-cifar10_clf-hopt-tpe-SGDwlrs"
+# Optimizer
+"ExperimentConfig.optimizer" = "SGD"
+# LRS
+"ExperimentConfig.lr_scheduler" = "ExponentialLR"
+# Modell
+
+
+[EXTRA_HARDWARE_PARAMS]
+num_cpus_per_worker = 6
+reservation = "p_scads_8"
+nodes=1
+
+[DATA]
+seed = [111]
+number_of_workers = 6
+num_gpus_per_worker = 1
+precision = 8
+account = "p_scads"
+partition = "alpha"
+enable_gpus = true
+mem_per_cpu = 10000
+computing_time = 64
+max_evals = 150
+algo_name = "tpe.suggest"
+range_generator_name = "hp.randint"
+
+[[DIMENSIONS]]
+name = "ExperimentConfig.lr"
+range_generator = "hp.loguniform"
+# exp(uniform(low, high))
+# [exp(min), exp(high)]
+min = -6.9 # \exp{x} = 0.001 
+max = -1.2
+
+[[DIMENSIONS]]
+name = "ExperimentConfig.momentum"
+range_generator = "hp.uniform"
+min = 0.5
+max = 0.99
+
+[[DIMENSIONS]]
+name = "ExperimentConfig.weight_decay"
+range_generator = "hp.loguniform"
+min = -13.81 # 10^-6
+max = -4.6 # 10^-2
+
+[[DIMENSIONS]]
+name = "ExperimentConfig.lrs_gamma"
+range_generator = "hp.uniform"
+min = 0.96
+max = 0.999
+
+[DEBUG]
+debug_xtreme = false
+debug = false
+info = false
+warning = false
+success = false
+stack = false
+show_live_output = false
+sbatch_or_srun = "sbatch"
+debug_sbatch_srun = false
+
+[MONGODB]
+worker_last_job_timeout = 7200
+poll_interval = 10
+kill_after_n_no_results = 100000

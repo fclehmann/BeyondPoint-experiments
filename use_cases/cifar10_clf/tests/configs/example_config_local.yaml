@@ -1,0 +1,26 @@
+training_data_root: "/home/yparomau/PycharmProjects/statistics-in-machine-learning/use_cases/cifar10_clf/data/processed"
+out_path: "/home/yparomau/PycharmProjects/statistics-in-machine-learning/use_cases/cifar10_clf/data/outputs"
+save_results: False
+batch_size: 10
+optimizer: "SGD"
+lr: 0.03
+weight_decay: 0.002
+momentum: 0.9
+train_val_split_algorithm: 'cross-validation'
+n_folds: 3
+#
+test_sample_size: 10
+train_sample_size: 10
+val_sample_size: 10
+num_epochs: 10
+show_step: 1
+device: "cpu"
+#
+mlflow_tracking_uri: "/home/yparomau/PycharmProjects/statistics-in-machine-learning/use_cases/cifar10_clf/mlruns"
+# seeds
+seed: 125
+weights_init_seed: 13
+augmentation_seed: 228
+train_val_split_algorithm_seed: 13
+dropout_seed: 25
+test_sample_seed: 11

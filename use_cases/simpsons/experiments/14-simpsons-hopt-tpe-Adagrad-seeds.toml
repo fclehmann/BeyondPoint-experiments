@@ -1,0 +1,106 @@
+[ENV_PARAMS]
+env_type = "singularity"
+singularity_image_file = "/beegfs/ws/0/s4610340-isml/.sifs/simpsons_7f22022.sif"
+[ENV_PARAMS.base_params]
+experiments_path = "/beegfs/ws/0/s4610340-isml/simpsons/experiments"
+objective_program_name = "run_experiment.sh"
+command_name = ""
+
+[FIXED_EXPERIMENT_PARAMS]
+"ExperimentConfig.train_test_split_algorithm" = "split"
+"ExperimentConfig.val_size" = 0.2
+"ExperimentConfig.test_size" = 0.2
+"ExperimentConfig.target_metric" = "error_rate"
+"ExperimentConfig.show_step" = 1
+"ExperimentConfig.training_data_root" = "/beegfs/ws/0/s4610340-isml/simpsons/data/processed/dataset_64x64"
+"ExperimentConfig.seed" = 125
+"ExperimentConfig.save_results" = "True"
+"ExperimentConfig.save_model" = "False"
+"ExperimentConfig.slurm_tracking" = "True"
+"ExperimentConfig.batch_size" = 512
+"ExperimentConfig.optimizer" = "Adagrad"
+"ExperimentConfig.initial_accumulator_value" = 0.0
+"ExperimentConfig.eps" = 1e-10
+"ExperimentConfig.nesterov" = "False"
+"ExperimentConfig.centered" = "False"
+"ExperimentConfig.alpha" = 0.99
+"ExperimentConfig.betas" = "(0.9, 0.99)"
+"ExperimentConfig.amsgrad" = "False"
+"ExperimentConfig.etas" = "(0.9, 0.99)"
+"ExperimentConfig.step_sizes" = "(0.9, 0.99)"
+"ExperimentConfig.max_iter" = 1000
+"ExperimentConfig.max_eval" = 1000
+"ExperimentConfig.tolerance_grad" = 0.1
+"ExperimentConfig.tolerance_change" = 0.1
+"ExperimentConfig.history_size" = 1
+"ExperimentConfig.lambd" = 0.1
+"ExperimentConfig.rho" = 0.1
+"ExperimentConfig.t0" = 0.1
+
+[EXTRA_HARDWARE_PARAMS]
+num_cpus_per_worker = 6
+reservation = "p_scads_11"
+
+[DATA]
+# np.random.default_rng().choice(np.arange(1, 10000), size=100, replace=False)
+seed = [8169, 4689, 5215, 9562, 2533, 8988, 9902, 5071, 3062, 8355, 8769,
+       2963, 5550,  137, 7708, 4311, 3224, 1491, 1579, 4143, 9157, 9087,
+       6123, 7153, 6875, 9915, 7656,  267, 3392, 4204, 1323,  442, 8501,
+        520, 2459, 7523, 4014,  495, 8562, 9841, 7321, 4022, 1598, 6450,
+        457, 7024, 5912, 1213, 6846, 4533, 7614, 2607, 7795, 4374, 3947,
+       2297, 2910, 6185, 5804, 6187, 4134, 4222, 3657, 4748, 2871,  516,
+       1535, 4429, 6682, 6786, 6192, 4297, 6669, 8106, 6955, 7816, 1990,
+       9575, 1828, 7814, 2640, 5939, 5064, 5424, 8281, 2792, 7745,  858,
+        564, 7787, 6700, 3526, 5951, 3819, 5130,  786,  101, 3366, 6312,
+       7984]
+number_of_workers = 8
+num_gpus_per_worker = 1
+precision = 8
+account = "p_scads"
+partition = "alpha"
+enable_gpus = true
+mem_per_cpu = 5000
+computing_time = 64
+max_evals = 250
+algo_name = "tpe.suggest"
+range_generator_name = "hp.randint"
+
+[[DIMENSIONS]]
+name = "ExperimentConfig.lr"
+range_generator = "hp.loguniform"
+min = -10.0
+max = -0.7
+
+[[DIMENSIONS]]
+name = "ExperimentConfig.weight_decay"
+range_generator = "hp.loguniform"
+min = -9.2
+max = -2.3
+
+[[DIMENSIONS]]
+name = "ExperimentConfig.num_epochs"
+range_generator = "hp.uniformint"
+min = 30
+max = 90
+
+[[DIMENSIONS]]
+name = "ExperimentConfig.lr_decay"
+range_generator = "hp.loguniform"
+min = -12.0
+max = -3.0
+
+[DEBUG]
+debug_xtreme = false
+debug = false
+info = false
+warning = false
+success = false
+stack = false
+show_live_output = false
+sbatch_or_srun = "sbatch"
+debug_sbatch_srun = false
+
+[MONGODB]
+worker_last_job_timeout = 7200
+poll_interval = 10
+kill_after_n_no_results = 100000

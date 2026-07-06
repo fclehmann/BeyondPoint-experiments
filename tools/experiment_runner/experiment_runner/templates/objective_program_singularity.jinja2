@@ -1,0 +1,16 @@
+#!/bin/bash
+
+singularity run -B /data:/data {% if gpus_enabled %}--nv{% endif %} {{ singularity_image_file }} {{ command.name }}
+{%- for option in command.options -%}
+    {% filter indent(width=1, first=True) -%}
+        {%- if option.value == "True" and not explicit_boolean_options -%}
+        --{{ option.name }}
+        {%- elif option.value == "False" and not explicit_boolean_options -%}
+        {%- else -%}
+        --{{ option.name }}="{{ option.value }}"
+        {%- endif -%}
+    {%- endfilter %}
+{%- endfor -%}
+{%- filter indent(width=1, first=True) -%}
+"${@}"
+{%- endfilter -%}

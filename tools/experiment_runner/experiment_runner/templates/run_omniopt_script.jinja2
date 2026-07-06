@@ -1,0 +1,11 @@
+source /etc/profile > /dev/null 2>&1; curl https://gist.githubusercontent.com/RikiTikkiTavi/5f21a4d7f3e64911a6866b0e7f1a6749/raw/omniopt_install_script.sh 2>/dev/null | /bin/bash -s -- \
+--projectname={{ project_name }} \
+--config_file={{ omniopt_config_b64 }} \
+--sbatch_command={{ sbatch_command_b64 }} \
+--workdir={{ workdir }} \
+--dont_add_to_shell_history \
+--no_install_zsh_autocomp \
+--no_error_analyze \
+--noninteractive \
+--no_taurus_check \
+{% if submit_jobs %}--autostart{% endif %}

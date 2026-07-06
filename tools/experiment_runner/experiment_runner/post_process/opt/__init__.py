@@ -1,0 +1,5 @@
+from .simpsons import SimpsonsOptPostProcessor
+from .cifar10_clf import Cifar10OptPostProcessor
+from .superconduct_tc_reg import SuperconductOptPostProcessor
+
+post_processors = (SimpsonsOptPostProcessor, Cifar10OptPostProcessor, SuperconductOptPostProcessor)

@@ -1,0 +1,33 @@
+training_data_root: "/data/horse/ws/s4610340-isml/cifar10_clf/data/processed"
+out_path: "/data/horse/ws/s4610340-isml/dev/tmp"
+save_results: False
+# Optim
+optimizer: "SGD"
+lr: 0.12
+weight_decay: 0.0015
+momentum: 0.729
+# split
+train_val_split_algorithm: 'bootstrap'
+test_sample_size: 10_000
+val_sample_size: 10_000
+train_sample_size: 40_000
+# trainer
+batch_size: 128 # 8192
+num_epochs: 200
+show_step: 1
+device: "cuda:0"
+# tracking
+tracking_type: "filesystem_cluster"
+# seeds
+seed: 125
+weights_init_seed: 13
+augmentation_seed: 228
+train_val_split_algorithm_seed: 13
+dropout_seed: 25
+test_sample_seed: 11
+data_shuffle_seed: 111
+# LRS
+lr_scheduler: ExponentialLR
+lrs_gamma: 0.975
+# Model settings
+dropout_p: 0.0

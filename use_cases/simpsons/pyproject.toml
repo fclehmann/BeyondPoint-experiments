@@ -1,0 +1,54 @@
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry_dynamic_versioning.backend"
+
+[tool.poetry]
+name = "simpsons"
+version = "0.0.0"
+description = ""
+readme = "README.md"
+authors = ["Yahor Paromau"]
+packages = [{ include = "simpsons", from = "./src" }]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+scikit-learn = "~1.4.1"
+numpy = "~1.26.4"
+pandas = "~2.2.1"
+spock-config = "~2.5.0"
+isml_train = { path = "../../lib/isml_train", develop = true }
+torch = {url="https://download.pytorch.org/whl/cu118/torch-2.1.2%2Bcu118-cp39-cp39-linux_x86_64.whl"}
+torchvision = { version = "0.16.2+cu118", source="torch-cuda11.8"}
+
+[tool.poetry.group.interactive]
+optional = true
+
+[tool.poetry.group.interactive.dependencies]
+ipykernel = "~6.16.0"
+tqdm = "~4.64.0"
+seaborn = "^0.12.2"
+matplotlib = "^3.7.1"
+plotly = "^5.14.1"
+papermill = "^2.4.0"
+typer = "^0.12.5"
+tomlkit = "^0.13.2"
+
+[tool.poetry.group.explain]
+optional = true
+
+[tool.poetry.group.explain.dependencies]
+grad-cam = { version = "~1.4.6" }
+
+[[tool.poetry.source]]
+name = "torch-cuda11.8"
+url = "https://download.pytorch.org/whl/cu118"
+priority = "explicit"
+
+[tool.poetry.scripts]
+train-simpsons-model = "simpsons.cli:main"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+metadata = true
+dirty = true

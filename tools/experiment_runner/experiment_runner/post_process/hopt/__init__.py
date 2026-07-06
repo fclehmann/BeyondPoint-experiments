@@ -1,0 +1,5 @@
+from experiment_runner.post_process.hopt.cifar10 import Cifar10HOptPostProcessor
+from .simpsons import SimpsonsHOptPostProcessor
+from .superconduct_tc_reg import SuperconductHOptPostProcessor
+
+post_processors = (SimpsonsHOptPostProcessor, SuperconductHOptPostProcessor, Cifar10HOptPostProcessor)

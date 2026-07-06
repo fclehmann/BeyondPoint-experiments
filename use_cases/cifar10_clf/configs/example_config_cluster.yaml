@@ -1,0 +1,40 @@
+training_data_root: "/data/horse/ws/s4610340-isml/cifar10_clf/data/processed"
+out_path: "/data/horse/ws/s4610340-isml/dev/tmp/cifar10_clf"
+save_results: False
+batch_size: 128 # 8192
+#
+optimizer: "SGD"
+lr: 0.029
+weight_decay: 0.01
+momentum: 0.97
+#
+train_val_split_algorithm: 'bootstrap'
+#
+test_sample_size: 10_000
+val_sample_size: 10_000
+train_sample_size: 40_000
+#
+num_epochs: 200
+show_step: 1
+device: "cuda:0"
+#
+mlflow_tracking_uri: "/data/horse/ws/s4610340-isml/mlruns"
+mlflow_experiment: "isml/cifar10_clf/debug"
+# seeds
+seed: 125
+weights_init_seed: 13
+augmentation_seed: 228
+train_val_split_algorithm_seed: 13
+dropout_seed: 25
+test_sample_seed: 11
+data_shuffle_seed: 111
+
+lr_scheduler: ExponentialLR
+#lr_scheduler: ReduceLROnPlateau
+#lrs_factor: 0.8
+#lrs_mode: 'min'
+#lrs_patience: 5
+#lrs_threshold: 0.01
+lrs_gamma: 0.98
+#
+dropout_p: 0.0

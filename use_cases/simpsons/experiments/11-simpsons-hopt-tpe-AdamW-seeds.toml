@@ -1,0 +1,137 @@
+[ENV_PARAMS]
+env_type = "singularity"
+singularity_image_file = "/beegfs/ws/0/s4610340-isml/.sifs/simpsons_7f22022.sif"
+[ENV_PARAMS.base_params]
+experiments_path = "/beegfs/ws/0/s4610340-isml/simpsons/experiments"
+objective_program_name = "run_experiment.sh"
+command_name = ""
+
+[FIXED_EXPERIMENT_PARAMS]
+"ExperimentConfig.train_test_split_algorithm" = "split"
+"ExperimentConfig.val_size" = 0.2
+"ExperimentConfig.test_size" = 0.2
+"ExperimentConfig.target_metric" = "error_rate"
+"ExperimentConfig.show_step" = 1
+"ExperimentConfig.training_data_root" = "/beegfs/ws/0/s4610340-isml/simpsons/data/processed/dataset_64x64"
+"ExperimentConfig.seed" = 125
+"ExperimentConfig.save_results" = "True"
+"ExperimentConfig.save_model" = "False"
+"ExperimentConfig.slurm_tracking" = "True"
+"ExperimentConfig.batch_size" = 512
+"ExperimentConfig.optimizer" = "AdamW"
+"ExperimentConfig.lr_decay" = 0.0
+"ExperimentConfig.initial_accumulator_value" = 0.0
+"ExperimentConfig.eps" = 1e-10
+"ExperimentConfig.nesterov" = "False"
+"ExperimentConfig.centered" = "False"
+"ExperimentConfig.alpha" = 0.99
+"ExperimentConfig.betas" = "(0.9, 0.99)"
+"ExperimentConfig.amsgrad" = "False"
+"ExperimentConfig.etas" = "(0.9, 0.99)"
+"ExperimentConfig.step_sizes" = "(0.9, 0.99)"
+"ExperimentConfig.max_iter" = 1000
+"ExperimentConfig.max_eval" = 1000
+"ExperimentConfig.tolerance_grad" = 0.1
+"ExperimentConfig.tolerance_change" = 0.1
+"ExperimentConfig.history_size" = 1
+"ExperimentConfig.lambd" = 0.1
+"ExperimentConfig.rho" = 0.1
+"ExperimentConfig.t0" = 0.1
+
+[EXTRA_HARDWARE_PARAMS]
+num_cpus_per_worker = 6
+reservation = "p_scads_11"
+
+[DATA]
+# np.random.default_rng().choice(np.arange(1, 10000), size=500, replace=False)
+seed = [5967, 4530, 3560, 3027, 7454, 1957, 3854, 4546, 4052, 6410, 3307,
+       3616, 7630, 7288, 3159,  159, 5712, 8520, 4473, 4680, 6565, 3595,
+       4584, 8911, 2822, 5412, 2533, 1197, 2196, 5700, 7491, 9621, 6319,
+        747,  440, 5502, 4950, 9620, 4376,  710, 8160, 2069, 2540, 7480,
+       6160, 7363,  610, 5091, 9300, 6903, 1185, 4271, 3401, 4313, 6342,
+       3739,  207, 3341, 5548, 6283, 2872, 9126, 1512, 1169, 8473, 6637,
+       9288,  893, 6571, 3912, 9354, 5593, 4985, 6578, 4740,  639, 5724,
+       4125, 1742, 6279, 3289, 1949, 9901, 2042, 1315, 7679, 6832, 6777,
+       3548, 6053, 1339, 6057, 2223, 9224, 7603, 7895, 4976, 6270, 5766,
+       8824, 9683, 5453, 8334, 1496, 7276, 7262, 5045,  501, 9964, 3691,
+        794, 4150, 6815,  292,  927, 1405,  682, 3176, 7809, 1451,  748,
+       2542, 6122, 2524, 1641, 6243, 7807, 5954, 6230, 3637, 5434, 8549,
+       8274, 1121, 4561, 3845, 7368, 3515,   15, 1899, 8424, 8871,  250,
+       5488,    5, 6598, 5086, 5896, 8397, 7047,  911, 1802, 7592, 5727,
+       7334, 1990, 9606, 2547,  625, 4978, 1165, 7038, 3687, 8309, 6921,
+       7350, 4101, 9650, 9123, 4989, 2178, 3056, 4731,  278, 4019, 3669,
+       1983, 7844, 6609, 9941, 9158, 8637, 2159, 9554, 4547, 8796, 6978,
+       4775, 6310, 7281, 5817, 2894, 4242, 9272, 5205, 6320, 8982, 2523,
+       6997, 8425, 2077, 1212, 1579, 1375, 5541, 6771, 5002, 3030, 1039,
+       3004, 1710, 6922, 3625, 7735,  712, 2007, 5707, 5310, 9231,  923,
+       7684, 1629, 1638, 4699, 2391, 8171, 4527, 5220, 5025, 5292, 2557,
+       5134, 7783, 5319,  897, 6457, 7882, 3611, 8826,  966, 5432, 7879,
+       7537, 1094, 4443, 6124,  880, 4259, 6647,  394,  366, 1937, 6307,
+       5339, 3330, 3121, 9751, 1979, 2157, 8740, 6371, 9161, 6852, 4042,
+       9864, 1732, 2559,  628, 6724, 2623, 2434, 6680, 6866,  613, 3363,
+        370, 7708, 4662, 2364, 2079, 1024, 3420, 2261, 9045, 9672, 5446,
+       5146, 7520, 9947, 8413, 9189, 3970, 7614, 7130, 6842, 4367, 3465,
+       5103, 4571, 5491, 9314, 7736, 2845, 4806, 5331, 7313, 6682, 7557,
+        341, 7992, 6695, 9455,  128, 3549, 8991, 7547, 5392, 9820, 4498,
+       2656, 1071, 1581, 2668, 9064, 7516, 2980, 4880, 9798, 2983, 6989,
+         67,  539, 1939, 9100, 7833, 1433, 1622, 7249, 9367, 9221, 7199,
+       5797, 6212, 6221, 1419, 2671, 9282, 8541,  913, 9492, 8572, 5115,
+       6543, 5158, 7269, 4283, 1573,  874, 1898, 8332, 9227, 5599, 4967,
+       9331, 2368, 3853,  621, 7391, 5407, 6261, 1857, 6780, 9981, 1877,
+       5318, 2831, 9905, 9279, 3066, 2753, 9323, 9409, 7839, 7433, 5321,
+       7081, 7299, 2448, 2301, 7897, 3290, 3847,  689, 6256, 3955, 5974,
+       4269, 7209, 7393, 7049, 4069,  230, 7977, 6359, 1508, 2721, 3869,
+       9971, 8294, 2629, 6071, 9028, 7856,  756, 6536, 8739, 7828, 5066,
+       6112, 1816, 3231, 6411,  850, 9786,  246, 2198,  842, 6245, 1344,
+       8491, 3024,  859, 4709, 3031, 6323, 6763, 8518, 7685, 8272, 5522,
+       3155, 9424, 6000,  354,  351,  239, 1640,  878, 5449, 6253, 1571,
+       4231, 7287, 1159,   59, 8935, 5458,  372, 2334, 7666, 1396, 1361,
+       9480,  560, 5464, 5461, 5366, 6518, 3950, 2615, 3403, 5621, 9166,
+        362, 7308, 5910, 2552, 6062, 5218, 2563, 7264, 8745, 9383, 5609,
+       9357, 4338, 7653, 3601, 5007, 8349, 6454,  896, 2126, 8711, 8805,
+       7304,  148,   30, 3919, 2911]
+number_of_workers = 8
+num_gpus_per_worker = 1
+precision = 8
+account = "p_scads"
+partition = "alpha"
+enable_gpus = true
+mem_per_cpu = 5000
+computing_time = 64
+max_evals = 250
+algo_name = "tpe.suggest"
+range_generator_name = "hp.randint"
+
+[[DIMENSIONS]]
+name = "ExperimentConfig.lr"
+range_generator = "hp.loguniform"
+min = -10.0
+max = -0.7
+
+[[DIMENSIONS]]
+name = "ExperimentConfig.weight_decay"
+range_generator = "hp.loguniform"
+min = -9.2
+max = -2.3
+
+[[DIMENSIONS]]
+name = "ExperimentConfig.num_epochs"
+range_generator = "hp.uniformint"
+min = 30
+max = 90
+
+[DEBUG]
+debug_xtreme = false
+debug = false
+info = false
+warning = false
+success = false
+stack = false
+show_live_output = false
+sbatch_or_srun = "sbatch"
+debug_sbatch_srun = false
+
+[MONGODB]
+worker_last_job_timeout = 7200
+poll_interval = 10
+kill_after_n_no_results = 100000

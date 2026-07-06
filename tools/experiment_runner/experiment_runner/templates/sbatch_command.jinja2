@@ -1,0 +1,16 @@
+sbatch -J {{ project_name }}
+ -A p_scads
+ {% if reservation != None %}--reservation={{ reservation }}{% endif %}
+ --cpus-per-task={{ cpus_per_task }}
+ --gres=gpu:{{ gres }}
+ --gpus-per-task={{ gpus_per_task }}
+ --ntasks={{ n_tasks }}
+ --time={{ max_computing_time }}:00:00
+ --mem-per-cpu={{ mem_per_cpu }}
+ --partition={{ partition }}
+ --nodes=1
+ sbatch.pl --project={{ project_name }}
+ --partition={{ partition }}
+ --num_gpus_per_worker={{ gpus_per_task }}
+ --max_time_per_worker={{ max_computing_time }}
+ --srun_cpus_per_task={{ cpus_per_task }}

@@ -1,5 +1,3 @@
-
-
 # Quantifying Uncertainty and Variability in Machine Learning
 
 This repository contains train pipelines, schedulers, and (up to some extent) data analyses for "Quantifying Uncertainty and Variability in Machine Learning: Confidence Intervals for Quantiles in Performance Metric Distributions".
@@ -28,7 +26,6 @@ Each `data/{use_case}.json` is an array of data objects corresponding to experim
 - `./lib` - reusable code components as installable libraries
 - `./tools` - tools
    - `./tools/experiment_runner` - Deploy/run experiments on taurus. Process, archive and export of experiment results.
-- `./aggregated_use_cases_analysis` - evaluation of experiment results (for all datasets)
 
 Each use-case is a python package. Important contents are:
 - `src` - source code

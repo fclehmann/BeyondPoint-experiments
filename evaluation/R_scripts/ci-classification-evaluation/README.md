@@ -1,6 +1,6 @@
 # CI evaluation on empirical classification-accuracy data
 
-**Location:** `R_scripts/ci-classification-evaluation/`
+**Location:** `evaluation/R_scripts/ci-classification-evaluation/`
 
 ## TL;DR
 
@@ -9,25 +9,27 @@ Four confidence-interval methods (`t_mean`, `np_exact`, `np_asymptotic`,
 classification-accuracy data against an *empirical* ground truth from
 the full reference dataset. Dataset-agnostic: any `.Rdata` with columns
 `experiment` (factor) and `accuracy` (numeric in `[0, 1]`) works.
+Dataset selection is driven entirely by the `data_file:` entry in the
+YAML — currently `cifar10_clf.Rdata` and `simpsons.Rdata`.
 
-Two test runs, both from the repository root:
+Two test runs from `evaluation/`:
 
 ```bash
 # Simpsons test run
 ./run-classification-pipeline.sh \
     --config config/simpsons-evaluation-test-run.yaml \
-    --output output \
-    --data   data
+    --output output
 
 # CIFAR-10 test run
 ./run-classification-pipeline.sh \
     --config config/cifar10-evaluation-test-run.yaml \
-    --output output \
-    --data   data
+    --output output
 ```
 
-Expected output per run in
-`output/<config-basename>/final_results/`:
+`--data` defaults to `<wrapper-dir>/../data` (i.e. `<repo>/data`) and
+can be overridden explicitly if needed.
+
+Expected output per run in `output/<config-basename>/final_results/`:
 
 - `true_statistics.Rdata` — empirical ground truth per `df$experiment`
 - `bootstrap_full_aggregated.Rdata` — bootstrap percentiles merged with truth
@@ -53,11 +55,16 @@ bootstrap distributions and the extracted bootstrap percentiles.
 - **`bootstrap`** — percentile CI from a semi-parametric bootstrap
   distribution (Hutson, *Statist. Comput.* 12, 2002).
 
-Companion pipeline: `R_scripts/ci-validation-simulation/` performs the
-same four calculations against a *theoretical* ground truth from
-parametric distributions. A future `R_scripts/ci-regression-evaluation/`
-is envisaged; the classification scope of this pipeline is expressed
-through two constraints in step 04:
+Companion pipelines:
+
+- `evaluation/R_scripts/ci-validation-evaluation/` — same four
+  calculations against a *theoretical* ground truth from parametric
+  distributions.
+- `evaluation/R_scripts/ci-regression-evaluation/` — same four
+  calculations on regression-error data (`[0, ∞)`-clipping).
+
+The classification scope of this pipeline is expressed through two
+constraints in step 04:
 
 - accuracies are expected in `[0, 1]`,
 - out-of-range CI bounds are clipped to `[0, 1]` and counted as `invalid`.
@@ -72,7 +79,7 @@ through two constraints in step 04:
 ## Pipeline layout
 
 ```
-R_scripts/ci-classification-evaluation/
+evaluation/R_scripts/ci-classification-evaluation/
 ├── 01-draw-subsamples-and-bootstrap.R
 ├── 02-extract-bootstrap-percentiles.R
 ├── 03-merge-with-empirical-truth.R
@@ -80,10 +87,11 @@ R_scripts/ci-classification-evaluation/
 └── README.md
 ```
 
-The wrapper `run-classification-pipeline.sh` lives at the repository
-root. Shared libs in `R_scripts/libs/` (`lib-semiparam-quantile-est.R`,
-`lib-np-exact-CI-linopt.R`, `lib-np-asymptotic-CI.R`) are resolved
-relative to each script's own file location.
+The wrapper `run-classification-pipeline.sh` lives at `evaluation/`.
+Shared libs in `evaluation/R_scripts/libs/`
+(`lib-semiparam-quantile-est.R`, `lib-np-exact-CI-linopt.R`,
+`lib-np-asymptotic-CI.R`) are resolved relative to each script's own
+file location.
 
 ## Reference data schema
 
@@ -91,19 +99,23 @@ The reference `.Rdata` must contain a data frame named `df`:
 
 ```
 $ experiment : Factor with one level per experimental setting
+$ seeds      : integer (one row per (experiment, seed) pair)
 $ accuracy   : numeric in [0, 1]
 ```
 
 Additional columns are ignored. Levels of `df$experiment` must not
 contain `-` (parsed as delimiter in filenames by step 02).
 
+See `<repo>/data/README.md` for the concrete datasets bundled with
+this repo.
+
 ## YAML configuration
 
-Config files live in `config/`. Minimal skeleton:
+Config files live in `evaluation/config/`. Minimal skeleton:
 
 ```yaml
 global_settings:
-  data_file: <reference-file>.Rdata
+  data_file: <reference-file>.Rdata      # e.g. cifar10_clf.Rdata or simpsons.Rdata
   q_levels: [0.95, 0.9, 0.75, 0.5, 0.25, 0.1, 0.05]
   q_type: 1
   seeds: 1
@@ -119,44 +131,45 @@ experiments:
 
 Workspace and sub-folder names are derived automatically from
 `data_file` and the experiment parameters. Switching between datasets
-requires only changing the `data_file:` entry.
+requires only changing the `data_file:` entry — the wrapper itself is
+dataset-agnostic.
 
 ## Running manually (per step)
 
 ```bash
 # step 01 — once per experiment id in the YAML
 for i in $(seq 1 <NUM>); do
-  Rscript R_scripts/ci-classification-evaluation/01-draw-subsamples-and-bootstrap.R \
+  Rscript evaluation/R_scripts/ci-classification-evaluation/01-draw-subsamples-and-bootstrap.R \
     --output_path         output \
-    --config_file         config/<yaml>.yaml \
+    --config_file         evaluation/config/<yaml>.yaml \
     --configuration_index $i \
     --datafile_path       data
 done
 
-# step 02  — basename only for --config_file (reads provenance copy)
-Rscript R_scripts/ci-classification-evaluation/02-extract-bootstrap-percentiles.R \
+# step 02 — basename only for --config_file (reads provenance copy)
+Rscript evaluation/R_scripts/ci-classification-evaluation/02-extract-bootstrap-percentiles.R \
   --data_parent_dir output/<config-basename> \
   --config_file     <yaml>.yaml
 
 # step 03
-Rscript R_scripts/ci-classification-evaluation/03-merge-with-empirical-truth.R \
+Rscript evaluation/R_scripts/ci-classification-evaluation/03-merge-with-empirical-truth.R \
   --parent_dir output/<config-basename>
 
 # step 04
-Rscript R_scripts/ci-classification-evaluation/04-compute-and-aggregate-cis.R \
+Rscript evaluation/R_scripts/ci-classification-evaluation/04-compute-and-aggregate-cis.R \
   --datafile_path output/<config-basename>
 ```
 
-Step 01 differs from the validation-simulation pipeline in taking an
-extra `--datafile_path`.
+Step 01 differs from the validation pipeline in taking an extra
+`--datafile_path`.
 
 ## Reproducing the reference results
 
 ```bash
+cd evaluation/
 ./run-classification-pipeline.sh \
     --config config/sp-bt-simpsons-evaluation.yaml \
-    --output output \
-    --data   data
+    --output output
 ```
 
 The results in `output/sp-bt-simpsons-evaluation/final_results/` are
@@ -169,5 +182,5 @@ the ones used in the associated publication.
   from bootstrap filenames via `(?<=\\=)[^\\-]+`. Levels of
   `df$experiment` must not contain `-`.
 - **Classification-specific clipping** to `[0, 1]` in step 04.
-- **Frozen reference.** Only compatibility fixes are made; no
-  further development.
+- **Frozen reference.** Only compatibility fixes are made; no further
+  development.

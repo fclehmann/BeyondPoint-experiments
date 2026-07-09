@@ -12,7 +12,19 @@ Raw and cleaned data from HPO runs for the 3 use case.
 
 ## `.json` — Raw experiment data
 
-One row per experiment with full provenance: hyperparameters (`params_example`, ~85 fields), varied HPs (`parameter_values`), all train/val/test metrics per seed (`metric_values`), seed list (`seeds`), and HPO configuration (`hopt`) . Number of experiments: 6 (CIFAR-10), 18 (Simpsons), unknown (Superconductor).
+All data relevant to the publication is stored in lightweight and aggregated form in `data/{use_case}.json`.
+
+Each `data/{use_case}.json` is an array of data objects corresponding to experiments. These data objects have at least the following keys:
+- `experiment` - name of experiment
+- `image` - path to singularity image (with commit hash)
+- `experiments_path` - path to experiment folder on cluster
+- `best_metric_decision_type` - str - max/min/last - the method used to decide how to extract the optimum of the decision_metric in an indivdual run.
+- `decision_metric` -  metric used to the optimum value of individual run in the step of post-processing.
+- `seed_param` - name of seed parameter which was varied
+- `seeds` - list of strings - seed values
+- `metric_values` - mapping of parameter or metric name to the value corresponding to individual run. In the case of hopt experiments, it contains entire hyperparameter optimization paths and has to be grouped by hopt seed to extract an optimum. To obtain the dataframe you can treat `metric_values` as mapping str -> column and append seeds as an additional column. In the case of a multi-source experiment (simpsons 20) the structure of seeds is different.
+
+One row per experiment with full provenance: hyperparameters (`params_example`, ~85 fields), varied HPs (`parameter_values`), all train/val/test metrics per seed (`metric_values`), seed list (`seeds`), and HPO configuration (`hopt`). Number of experiments: 6 (CIFAR-10), 18 (Simpsons), unknown (Superconductor).
 
 ## `.Rdata` — Cleaned data for analysis
 

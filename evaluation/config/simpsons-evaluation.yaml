@@ -1,0 +1,69 @@
+global_settings:  
+  data_file: simpsons.Rdata
+  experiment_filter: simpsons
+  q_levels: [0.95, 0.9, 0.75, 0.5, 0.25, 0.1, 0.05]
+  q_type: 1
+  seeds: 1
+  boot_percentiles_levels: [0.025, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.975]
+
+experiments:
+  - id: 1
+    name: semiparametric-simpsons-n10-1000-1000
+    sample_size: 10
+    num_samples: 1000
+    num_bootsamples: 1000
+  - id: 2
+    name: semiparametric-simpsons-n10-1000-5000
+    sample_size: 10
+    num_samples: 1000
+    num_bootsamples: 5000
+  - id: 3
+    name: semiparametric-simpsons-n15-1000-1000
+    sample_size: 15
+    num_samples: 1000
+    num_bootsamples: 1000
+  - id: 4
+    name: semiparametric-simpsons-n15-1000-5000
+    sample_size: 15
+    num_samples: 1000
+    num_bootsamples: 5000
+  - id: 5
+    name: semiparametric-simpsons-n25-1000-1000
+    sample_size: 25
+    num_samples: 1000
+    num_bootsamples: 1000
+  - id: 6
+    name: semiparametric-simpsons-n25-1000-5000
+    sample_size: 25
+    num_samples: 1000
+    num_bootsamples: 5000
+  - id: 7
+    name: semiparametric-simpsons-n50-1000-1000
+    sample_size: 50
+    num_samples: 1000
+    num_bootsamples: 1000
+  - id: 8
+    name: semiparametric-simpsons-n50-1000-5000
+    sample_size: 50
+    num_samples: 1000
+    num_bootsamples: 5000
+  - id: 9
+    name: semiparametric-simpsons-n10-2000-2000
+    sample_size: 10
+    num_samples: 2000
+    num_bootsamples: 2000
+  - id: 10
+    name: semiparametric-simpsons-n15-2000-2000
+    sample_size: 15
+    num_samples: 2000
+    num_bootsamples: 2000
+  - id: 11
+    name: semiparametric-simpsons-n25-2000-2000
+    sample_size: 25
+    num_samples: 2000
+    num_bootsamples: 2000
+  - id: 12
+    name: semiparametric-simpsons-n50-2000-2000
+    sample_size: 50
+    num_samples: 2000
+    num_bootsamples: 2000

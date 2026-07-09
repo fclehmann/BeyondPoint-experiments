@@ -1,0 +1,68 @@
+global_settings:
+  data_file: superconduct_tc_reg.Rdata
+  q_levels: [0.95, 0.9, 0.75, 0.5, 0.25, 0.1, 0.05]
+  q_type: 1
+  seeds: 1
+  boot_percentiles_levels: [0.005, 0.025, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.975, 0.995]
+
+experiments:
+  - id: 1
+    name: sp-bt-superconductor-n10-1000-1000
+    sample_size: 10
+    num_samples: 1000
+    num_bootsamples: 1000
+  - id: 2
+    name: sp-bt-superconductor-n10-1000-2000
+    sample_size: 10
+    num_samples: 1000
+    num_bootsamples: 2000
+  - id: 3
+    name: sp-bt-superconductor-n15-1000-1000
+    sample_size: 15
+    num_samples: 1000
+    num_bootsamples: 1000
+  - id: 4
+    name: sp-bt-superconductor-n15-1000-2000
+    sample_size: 15
+    num_samples: 1000
+    num_bootsamples: 2000
+  - id: 5
+    name: sp-bt-superconductor-n25-1000-1000
+    sample_size: 25
+    num_samples: 1000
+    num_bootsamples: 1000
+  - id: 6
+    name: sp-bt-superconductor-n25-1000-2000
+    sample_size: 25
+    num_samples: 1000
+    num_bootsamples: 2000
+  - id: 7
+    name: sp-bt-superconductor-n50-1000-1000
+    sample_size: 50
+    num_samples: 1000
+    num_bootsamples: 1000
+  - id: 8
+    name: sp-bt-superconductor-n50-1000-2000
+    sample_size: 50
+    num_samples: 1000
+    num_bootsamples: 2000
+  - id: 9
+    name: sp-bt-superconductor-n10-2000-2000
+    sample_size: 10
+    num_samples: 2000
+    num_bootsamples: 2000
+  - id: 10
+    name: sp-bt-superconductor-n15-2000-2000
+    sample_size: 15
+    num_samples: 2000
+    num_bootsamples: 2000
+  - id: 11
+    name: sp-bt-superconductor-n25-2000-2000
+    sample_size: 25
+    num_samples: 2000
+    num_bootsamples: 2000
+  - id: 12
+    name: sp-bt-superconductor-n50-2000-2000
+    sample_size: 50
+    num_samples: 2000
+    num_bootsamples: 2000

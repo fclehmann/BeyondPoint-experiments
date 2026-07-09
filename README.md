@@ -1,6 +1,6 @@
-# Quantifying Uncertainty and Variability in Machine Learning
+# Beyond Point Estimates: Distributional Uncertainty in Machine Learning Performance Evaluation
 
-This repository contains train pipelines, schedulers, and (up to some extent) data analyses for "Quantifying Uncertainty and Variability in Machine Learning: Confidence Intervals for Quantiles in Performance Metric Distributions".
+This repository contains train pipelines, schedulers, and (up to some extent) data analyses for "Beyond Point Estimates: Distributional Uncertainty in Machine Learning Performance Evaluation".
 
 ## Data
 

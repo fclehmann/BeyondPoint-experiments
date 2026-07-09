@@ -66,6 +66,17 @@ configs in `config/`. They are reduced in `num_samples` /
 `num_bootsamples` / number of experiments and finish within minutes
 on a laptop to verify that the pipeline runs end-to-end.
 
+You need **R ≥ 4.3** and the following R packages installed:
+
+```r
+install.packages(c(
+  "boot", "dplyr", "magrittr", "tidyr", "tibble", "stringr",
+  "purrr", "foreach", "doParallel", "parallel",
+  "optparse", "yaml", "tidyverse",
+  "jsonlite", "KScorrect", "evd", "lpSolve"
+))
+```
+
 Copy-paste from `evaluation/`:
 
 ```bash

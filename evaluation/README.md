@@ -15,8 +15,8 @@ evaluation/
 │   ├── superconductor-evaluation[-test-run].yaml
 │   └── validation-evaluation[-test-run].yaml
 ├── R_scripts/
-│   ├── ci-classification-evaluation/    # empirical ground truth, [0, 1]-clipping
-│   ├── ci-regression-evaluation/        # empirical ground truth, [0, ∞)-clipping
+│   ├── ci-classification-evaluation/    # empirical ground truth
+│   ├── ci-regression-evaluation/        # empirical ground truth
 │   ├── ci-validation-evaluation/        # theoretical ground truth (parametric)
 │   └── libs/                            # implementations of the CI methods
 │                                        # (except the Student-t interval, which
@@ -59,7 +59,49 @@ All three follow the same four-step structure:
 The dataset for the two empirical pipelines is selected via the
 `data_file:` entry in the YAML; `--data` defaults to `../data`.
 
-## Typical invocation
+## Quick test run
+
+For a fast smoke test of any pipeline, use the `*-test-run.yaml`
+configs in `config/`. They are reduced in `num_samples` /
+`num_bootsamples` / number of experiments and finish within minutes
+on a laptop to verify that the pipeline runs end-to-end.
+
+Copy-paste from `evaluation/`:
+
+```bash
+cd evaluation/
+
+mkdir output
+
+# classification — CIFAR-10
+./run-classification-pipeline.sh \
+    --config config/cifar10-evaluation-test-run.yaml \
+    --output output
+
+# classification — Simpsons
+./run-classification-pipeline.sh \
+    --config config/simpsons-evaluation-test-run.yaml \
+    --output output
+
+# regression — Superconductor
+./run-regression-pipeline.sh \
+    --config config/superconductor-evaluation-test-run.yaml \
+    --output output
+
+# validation — simulated data with theoretical ground truth
+./run-validation-pipeline.sh \
+    --config config/validation-evaluation-test-run.yaml \
+    --output output
+```
+
+Results land in `output/<config-basename>/final_results/`, e.g.
+`output/cifar10-evaluation-test-run/final_results/`.
+
+## Full run
+
+Same wrappers, but with the non-test YAMLs. These reproduce the
+configurations used for the published results and can take hours to
+days depending on the cluster:
 
 ```bash
 cd evaluation/
@@ -76,8 +118,6 @@ cd evaluation/
     --config config/validation-evaluation.yaml \
     --output output
 ```
-
-Results per run land in `<output>/<config-basename>/final_results/`.
 
 ## Where to look next
 
